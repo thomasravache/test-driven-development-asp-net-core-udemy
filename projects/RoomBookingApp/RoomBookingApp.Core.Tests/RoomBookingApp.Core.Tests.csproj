@@ -23,4 +23,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\RoomBookingApp.Core\RoomBookingApp.Core.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -1,9 +1,6 @@
-﻿using Shouldly;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using RoomBookingApp.Core.Models;
+using RoomBookingApp.Core.Processors;
+using Shouldly;
 
 namespace RoomBookingApp.Core.Tests
 {

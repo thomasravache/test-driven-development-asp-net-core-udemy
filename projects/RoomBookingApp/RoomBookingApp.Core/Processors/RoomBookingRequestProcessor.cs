@@ -1,12 +1,14 @@
-﻿namespace RoomBookingApp.Core.Tests
+﻿using RoomBookingApp.Core.Models;
+
+namespace RoomBookingApp.Core.Processors
 {
-    internal class RoomBookingRequestProcessor
+    public class RoomBookingRequestProcessor
     {
         public RoomBookingRequestProcessor()
         {
         }
 
-        internal RoomBookingResult BookRoom(RoomBookingRequest bookingRequest)
+        public RoomBookingResult BookRoom(RoomBookingRequest bookingRequest)
         {
             return new RoomBookingResult()
             {
