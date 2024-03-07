@@ -30,9 +30,9 @@ namespace RoomBookingApp.Core.Tests
 
 
             result.ShouldNotBeNull(); // mesma coisa com o pacote shouldly, onde podemos adicionar mensagens customizadas
-            result.FullName.ShouldBe(result.FullName);
-            result.Email.ShouldBe(result.Email);
-            result.Date.ShouldBe(result.Date);
+            result.FullName.ShouldBe(bookingRequest.FullName);
+            result.Email.ShouldBe(bookingRequest.Email);
+            result.Date.ShouldBe(bookingRequest.Date);
         }
     }
 }
