@@ -50,6 +50,7 @@ namespace RoomBookingApp.Core.Tests
             // Assert.Throws<ArgumentNullException>(() => _processor.BookRoom(null)); // Utilizando Assert
 
             exception.ParamName.ShouldBe("bookingRequest");
+            // Assert.Equal(exception.ParamName, "bookingRequest");
         }
     }
 }
