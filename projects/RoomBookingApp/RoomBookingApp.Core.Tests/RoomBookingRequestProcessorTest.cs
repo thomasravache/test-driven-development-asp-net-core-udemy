@@ -12,6 +12,7 @@ namespace RoomBookingApp.Core.Tests
         private readonly RoomBookingRequestProcessor _processor;
         private readonly RoomBookingRequest _request;
         private Mock<IRoomBookingService> _roomBookingServiceMock;
+        private List<Room> _availableRooms;
 
         public RoomBookingRequestProcessorTest()
         {
@@ -26,8 +27,12 @@ namespace RoomBookingApp.Core.Tests
                 Email = "test@request.com",
                 Date = new DateTime(2021, 10, 20),
             };
+            _availableRooms = new() { new Room() };
 
             _roomBookingServiceMock = new Mock<IRoomBookingService>();
+            _roomBookingServiceMock.Setup(q => q.GetAvailableRooms(_request.Date))
+                .Returns(_availableRooms);
+
             _processor = new RoomBookingRequestProcessor(_roomBookingServiceMock.Object);
         }
 
@@ -69,6 +74,8 @@ namespace RoomBookingApp.Core.Tests
             // estamos dizendo que queremos que ele se comporte dessa forma ao chamar
             // o método Save, estamos configurando o coportamento do método Save
             // simulando que um objeto do tipo RoomBooking seja passado corretamente
+            // Nesse caso está sendo utilizado o It.IsAny no parametro porque não importa os dados da propriedade pra esse teste
+            // O que importa é verificar se ao chamar o método BookRoom do processor, que o método Save seja chamado lá dentro
             _roomBookingServiceMock.Setup(q => q.Save(It.IsAny<RoomBooking>()))
                 .Callback<RoomBooking>(booking =>
                 {
@@ -85,6 +92,20 @@ namespace RoomBookingApp.Core.Tests
             savedBooking.FullName.ShouldBe(_request.FullName);
             savedBooking.Email.ShouldBe(_request.Email);
             savedBooking.Date.ShouldBe(_request.Date);
+        }
+
+        [Fact]
+        public void Should_Not_Save_Room_Booking_Request_If_None_Available()
+        {
+            // Se o _availableRooms estiver vazio, quer dizer que não temos nenhum quarto vago para reservar
+                // demonstrado com o _availableRooms.Clear() -> simulando que eles estejam vazios
+            // Portanto se _availableRooms estiver vazio eu quero que o método Save do meu serviço não seja chamado nenhuma vez
+
+            _availableRooms.Clear();
+
+            _processor.BookRoom(_request);
+
+            _roomBookingServiceMock.Verify(q => q.Save(It.IsAny<RoomBooking>()), Times.Never);
         }
     }
 }
